@@ -12,8 +12,18 @@ public class Action {
         this.position = position;
     }
 
-    public Player getPlayer() { return this.player; }
+    public Player getPlayer() {
+        return this.player;
+    }
+
     public Position getPosition() {
-        return  this.position;
+        return this.position;
+    }
+
+    public boolean equals(Action other) {
+        if(other == null) {
+            return false;
+        }
+        return this.player == other.player && this.position == other.position;
     }
 }

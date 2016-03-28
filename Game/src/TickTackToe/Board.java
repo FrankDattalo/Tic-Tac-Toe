@@ -1,22 +1,18 @@
 package TickTackToe;
 
-import javafx.geometry.Pos;
-
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by fjdat on 3/27/2016.
  */
 public class Board {
-    private Action previousMove;
-    private Set<Position> openLocations;
-    private Set<Position> playerMoves;
-    private Set<Position> computerMoves;
-
     private static List<Set<Position>> terminalCases;
 
     // Sets up list of terminal cases
-    static  {
+    static {
         Board.terminalCases = new LinkedList<Set<Position>>();
 
         // Horizontal Terminal Cases
@@ -71,11 +67,17 @@ public class Board {
         Board.terminalCases.add(s);
     }
 
+    private Action previousMove;
+    private Set<Position> openLocations;
+    private Set<Position> playerMoves;
+    private Set<Position> computerMoves;
+
     /**
      * Board must be initialized.
-     * @Requres Previous State must not be null.
-     * @param previousState The previous state of the board.
+     *
+     * @param previousState  The previous state of the board.
      * @param previousAction The previous action.
+     * @Requres Previous State must not be null.
      */
     public Board(Board previousState, Action previousAction) {
         this.computerMoves = new HashSet<Position>();
@@ -87,14 +89,14 @@ public class Board {
         this.playerMoves.addAll(previousState.playerMoves);
         this.openLocations.addAll(previousState.openLocations);
 
-        if(previousAction != null) {
+        if (previousAction != null) {
             Player previousPlayer = previousAction.getPlayer();
             Position previousPosition = previousAction.getPosition();
             this.openLocations.remove(previousPosition);
-            if(previousPlayer == Player.Computer) {
-                this.computerMoves.remove(previousPosition);
+            if (previousPlayer == Player.Computer) {
+                this.computerMoves.add(previousPosition);
             } else {
-                this.playerMoves.remove(previousPosition);
+                this.playerMoves.add(previousPosition);
             }
         }
     }
@@ -120,23 +122,24 @@ public class Board {
 
     /**
      * Reports whether a given board state is a terminal case. IE -> no open positions, or a player has one.
+     *
      * @return whether a given board state is a terminal case. IE -> no open positions, or a player has one.
      */
     public boolean isTerminalCase() {
-        if(this.openLocations.size() == 0) {
+        if (this.openLocations.size() == 0) {
             return true;
         }
 
         for (Set<Position> s :
-             Board.terminalCases) {
-            if(this.playerMoves.containsAll(s)) {
+                Board.terminalCases) {
+            if (this.playerMoves.containsAll(s)) {
                 return true;
             }
         }
 
         for (Set<Position> s :
                 Board.terminalCases) {
-            if(this.computerMoves.containsAll(s)) {
+            if (this.computerMoves.containsAll(s)) {
                 return true;
             }
         }
@@ -146,19 +149,20 @@ public class Board {
 
     /**
      * Reports whether this board state is a winning case.
+     *
      * @return whether this board state is a winning case.
      */
     public boolean isWinningCase() {
         for (Set<Position> s :
                 Board.terminalCases) {
-            if(this.playerMoves.containsAll(s)) {
+            if (this.playerMoves.containsAll(s)) {
                 return true;
             }
         }
 
         for (Set<Position> s :
                 Board.terminalCases) {
-            if(this.computerMoves.containsAll(s)) {
+            if (this.computerMoves.containsAll(s)) {
                 return true;
             }
         }
