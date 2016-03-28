@@ -107,6 +107,7 @@ public class Board {
     public Board() {
         this.computerMoves = new HashSet<Position>();
         this.playerMoves = new HashSet<Position>();
+        this.openLocations = new HashSet<Position>();
         this.previousMove = null;
 
         this.openLocations.add(Position.Zero);
@@ -176,5 +177,31 @@ public class Board {
 
     public Set<Position> getOpenPositions() {
         return this.openLocations;
+    }
+
+    public void setPreviousMove(Action a) {
+        this.previousMove = a;
+    }
+
+    public void display() {
+        String spacer = "-----------";
+        System.out.println(this.getValueAtPosition(Position.Zero) + "|" +
+        this.getValueAtPosition(Position.One) + "|" + this.getValueAtPosition(Position.Two));
+        System.out.println(spacer);
+        System.out.println(this.getValueAtPosition(Position.Three) + "|" +
+                this.getValueAtPosition(Position.Four) + "|" + this.getValueAtPosition(Position.Five));
+        System.out.println(spacer);
+        System.out.println(this.getValueAtPosition(Position.Six) + "|" +
+                this.getValueAtPosition(Position.Seven) + "|" + this.getValueAtPosition(Position.Eight));
+    }
+
+    private String getValueAtPosition(Position p) {
+        if(this.computerMoves.contains(p)) {
+            return " X ";
+        } else if(this.playerMoves.contains(p)) {
+            return " O ";
+        } else {
+            return "   ";
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Node {
             this.boardState = new Board(parent.boardState, previousAction);
         } else {
             this.boardState = new Board();
+            this.boardState.setPreviousMove(new Action(Player.Human, null));
         }
         this.children = new LinkedList<Node>();
         this.utility = 0;
