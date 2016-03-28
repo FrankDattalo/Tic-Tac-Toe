@@ -1,4 +1,7 @@
 # Tick-Tack-Toe
+
+This repo contains code for an application that will never lose to a human in tick-tack-toe.
+
 class Board
 > holds current board positions
 
@@ -8,7 +11,8 @@ class Action
 class Player
 > either computer or human
 
-Position x : (0 <= x <= 8)
+Position 
+> x : (0 <= x <= 8)
 
 Node
 > Board
