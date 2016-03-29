@@ -5,4 +5,4 @@ It uses a minimax algorithm to compute the best possible move at each board posi
 
 This project was made as an experiment with minimax algorithms and computer implementation of mathematical concepts.
 
-I will eventually turn this into a web application that can be used in a browser.
+I will eventually turn this into a web application that can be run in a browser.
