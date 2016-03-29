@@ -55,7 +55,7 @@ public class Board {
 
         // Diagonal Terminal Cases
         s = new HashSet<Position>();
-        s.add(Position.One);
+        s.add(Position.Zero);
         s.add(Position.Four);
         s.add(Position.Eight);
         Board.terminalCases.add(s);
@@ -184,15 +184,17 @@ public class Board {
     }
 
     public void display() {
-        String spacer = "-----------";
-        System.out.println(this.getValueAtPosition(Position.Zero) + "|" +
-        this.getValueAtPosition(Position.One) + "|" + this.getValueAtPosition(Position.Two));
+        String spacer = "    -----------";
+        System.out.println("y3: " + this.getValueAtPosition(Position.Six) + "|" +
+                this.getValueAtPosition(Position.Seven) + "|" + this.getValueAtPosition(Position.Eight));
         System.out.println(spacer);
-        System.out.println(this.getValueAtPosition(Position.Three) + "|" +
+        System.out.println("y2: " + this.getValueAtPosition(Position.Three) + "|" +
                 this.getValueAtPosition(Position.Four) + "|" + this.getValueAtPosition(Position.Five));
         System.out.println(spacer);
-        System.out.println(this.getValueAtPosition(Position.Six) + "|" +
-                this.getValueAtPosition(Position.Seven) + "|" + this.getValueAtPosition(Position.Eight));
+        System.out.println("y1: " + this.getValueAtPosition(Position.Zero) + "|" +
+                this.getValueAtPosition(Position.One) + "|" + this.getValueAtPosition(Position.Two));
+        System.out.println("     x1  x2  x3");
+
     }
 
     private String getValueAtPosition(Position p) {

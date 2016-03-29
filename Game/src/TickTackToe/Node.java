@@ -22,9 +22,10 @@ public class Node {
         this.utility = 0;
     }
 
-    public int build(State previous) {
+    public int build() {
+        Player previous = this.boardState.getPreviousMove().getPlayer();
         if (this.boardState.isTerminalCase()) {
-            if (this.boardState.getPreviousMove().getPlayer() == Player.Human) {
+            if (previous == Player.Human) {
                 if (this.boardState.isWinningCase()) {
                     this.utility = -1;
                 } else {
@@ -39,12 +40,12 @@ public class Node {
             }
         } else {
             // Calculate intermediate node values
-            if (previous == State.Maximum) { // current = Min
+            if (previous == Player.Computer) { // current = Min
                 for (Position openSpot :
                         this.boardState.getOpenPositions()) {
                     Node n = new Node(this, new Action(Player.Human, openSpot));
                     this.children.add(n);
-                    if (n.build(State.Minimum) < 0) {
+                    if (n.build() < 0) {
                         this.utility--;
                     }
                 }
@@ -53,7 +54,7 @@ public class Node {
                         this.boardState.getOpenPositions()) {
                     Node n = new Node(this, new Action(Player.Computer, openSpot));
                     this.children.add(n);
-                    if (n.build(State.Maximum) > 0) {
+                    if (n.build() > 0) {
                         this.utility++;
                     }
                 }

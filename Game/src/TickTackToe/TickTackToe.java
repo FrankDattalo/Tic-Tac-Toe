@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by fjdat on 3/28/2016.
@@ -14,11 +15,13 @@ public class TickTackToe {
         return input != null && input.length() > 0 && (input.charAt(0) == 'y' || input.charAt(0) == 'Y');
     }
 
-    public static void logicLoop(Scanner in, Node gameState) {
+    public static void logicLoop(Scanner in, Node gameState, int turn) {
         boolean isGameOver = gameState.getBoardState().isTerminalCase();
-        System.out.println("INITIAL STATE: ");
-        gameState.getBoardState().display();
-        System.out.println();
+        if(turn > 0) {
+            System.out.println("Turn " + turn + ": ");
+            gameState.getBoardState().display();
+            System.out.println();
+        }
         while (!isGameOver) {
             if (gameState.getBoardState().getPreviousMove().getPlayer() != Player.Human) { // player move
                 Position p = getUserInput(in, gameState);
@@ -26,10 +29,15 @@ public class TickTackToe {
                 isGameOver = gameState.getBoardState().isTerminalCase();
                 if(isGameOver) {
                     if(gameState.getBoardState().isWinningCase()) {
-                        System.out.println("ERROR! PLAYER SHOULD NOT WIN!");
+                        System.out.println("Player wins!");
+                        gameState.getBoardState().display();
+                        System.out.println();
                     } else {
                         System.out.println("Draw!");
+                        gameState.getBoardState().display();
+                        System.out.println();
                     }
+                    break;
                 }
             } else { // computer move
                 gameState = gameState.getChildWithHighestUtility();
@@ -37,11 +45,18 @@ public class TickTackToe {
                 if(isGameOver) {
                     if(gameState.getBoardState().isWinningCase()) {
                         System.out.println("Computer wins!");
+                        gameState.getBoardState().display();
+                        System.out.println();
                     } else {
                         System.out.println("Draw!");
+                        gameState.getBoardState().display();
+                        System.out.println();
                     }
+                    break;
                 }
             }
+            turn++;
+            System.out.println("Turn " + turn + ": ");
             gameState.getBoardState().display();
             System.out.println();
         }
@@ -90,24 +105,27 @@ public class TickTackToe {
     public static void main(String... args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Welcome to my tic-tac-toe playing program!");
-        System.out.println("This program will never lose to a human player!");
+        System.out.println("This program will never lose to a human player if it goes first!");
         String input;
         do {
             System.out.print("Would you like to go first? (y/n) > ");
             input = in.nextLine();
-            System.out.println("Building game!...");
             if (beginsWithY(input)) {
                 // build board based off of player input
                 // pass board state to logic loop that will run game
-                Node gameState = new Node(new Node(null, null), new Action(Player.Human, getUserInput(in, null)));
-                gameState.build(State.Minimum);
-                logicLoop(in, gameState);
+                Node gameState = new Node(null, null);
+                gameState.getBoardState().display();
+                gameState = new Node(gameState, new Action(Player.Human, getUserInput(in, null)));
+                System.out.println("Building game!...");
+                gameState.build();
+                logicLoop(in, gameState, 1);
             } else {
                 // build board based off of computer decision
                 // pass board state to logic loop that will run game
                 Node gameState = new Node(null, null);
-                gameState.build(State.Minimum);
-                logicLoop(in, gameState);
+                System.out.println("Building game!...");
+                gameState.build();
+                logicLoop(in, gameState, 0);
             }
             System.out.print("Would you like to play again? (y/n) > ");
             input = in.nextLine();
